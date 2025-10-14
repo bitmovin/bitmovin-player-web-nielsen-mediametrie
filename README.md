@@ -79,6 +79,22 @@ npm run test
 
 ```
 
+## How to publish a new version
+
+```bash
+# ensure to be logged
+npm login
+npm whoami
+
+# publish without changing the version
+npm run publish:npm
+
+# upgrade version and publish in one step
+npm run release:patch 
+npm run release:minor 
+npm run release:major 
+```
+
 ## License
 
 ... Add LICENCE later

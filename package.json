@@ -11,8 +11,17 @@
     "lint": "prettier --check src/**/*.ts",
     "lint:fix": "prettier --write src/**/*.ts",
     "format": "prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run clean && npm run build",
+    "publish:npm": "npm publish",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
   },
+  "files": [
+    "dist/*",
+    "README.md"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
