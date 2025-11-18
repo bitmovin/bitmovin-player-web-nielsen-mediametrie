@@ -93,7 +93,7 @@ If you see something missing that might be useful but are unable to contribute t
 
 ## Reporting a bug
 
-If you come across a bug related to the Player React Native SDK, please raise this through the support ticketing system accessible in your [Bitmovin Dashboard](https://dashboard.bitmovin.com/support/tickets).
+If you come across a bug related to this SDK, please raise this through the support ticketing system accessible in your [Bitmovin Dashboard](https://dashboard.bitmovin.com/support/tickets).
 
 ## Support and SLA Disclaimer
 
