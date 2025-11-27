@@ -21,11 +21,104 @@ Before you can use this integration, you will need:
 
 ## Installation
 
-TODO .... Explain installation steps once published
+### Using npm
+
+```bash
+npm install @bitmovin/player-integration-nielsen
+```
+
+Then import in your project:
+
+```javascript
+import { NielsenMeasurements } from '@bitmovin/player-integration-nielsen';
+```
+
+### Using a Script Tag
+
+Include the library after the Bitmovin Player SDK:
+
+```html
+<!-- Bitmovin Player SDK -->
+<script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+
+<!-- Nielsen Measurement Integration -->
+<script src="path/to/bitmovin-player-measurements-nielsen.js"></script>
+```
+
+When loaded via script tag, the library is available under the `bitmovin.player.measurements` namespace:
+
+```javascript
+const NielsenMeasurements = bitmovin.player.measurements.NielsenMeasurements;
+```
 
 ## Quick Start
 
-Under `/examples` is a basic example of how to integrate the Nielsen Measurement tracker with the Bitmovin Player.
+Example of how to integrate the Nielsen Measurement tracker with the Bitmovin Player.
+
+```javascript
+const playerConfig = {
+    key: 'KEY',
+    playback: {
+        muted: true,
+        autoplay: true,
+    },
+    advertising: {
+        adBreaks: [
+        {
+            tag: {
+            type: 'vast',
+            // More Ad Samples can be found here:
+            // https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/tags
+            url: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dredirecterror&nofb=1&correlator=',
+            },
+        },
+        ],
+    },
+};
+
+// Sample video source
+const sourceConfig = {
+    title: 'Sintel',
+    dash: 'https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd',
+    poster: 'https://bitmovin.com/wp-content/uploads/2016/06/sintel-poster.jpg',
+};
+
+bitmovin.player.Player.addModule(window.bitmovin.player['advertising-bitmovin'].default);
+
+// Create the Bitmovin Player instance
+const playerContainer = document.getElementById('player');
+const player = new bitmovin.player.Player(playerContainer, playerConfig);
+
+player.load(sourceConfig);
+
+// Create the instance and attach it to player, with appropriate metadata for content
+const NielsenMeasurements = bitmovin.player.measurements.NielsenMeasurements;
+// Simplest example
+/*
+    const measurements = new NielsenMeasurements({
+        appId: 'PTEST',
+        instanceName: 'testInstance'
+    });
+*/
+
+// Example of attaching Nielsen measurements with custom content metadata builder
+const measurements = new NielsenMeasurements({
+appId: 'PTEST',
+instanceName: 'testInstance',
+metadataBuilder: {
+    buildContentMetadata: (player) =>
+        // This example uses the default content metadata builder (withContent) but also adds a custom field
+        new bitmovin.player.measurements.NielsenMetadataBuilder({
+            subbrand: 'my-subbrand',
+            assetId: 'Sintel',
+        })
+        .withContent(player)
+        .withCustomField('nol_p0', 'customFieldValue'),
+    },
+});
+
+measurements.attachTo(player);
+```
 
 
 ## Configuration Options
