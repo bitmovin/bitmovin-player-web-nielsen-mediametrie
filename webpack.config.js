@@ -1,4 +1,3 @@
-const CreateFileWebpack = require('create-file-webpack');
 const npmPackage = require('./package.json');
 const path = require('path');
 
@@ -40,13 +39,6 @@ module.exports = {
     globalObject: 'this',
   },
   devtool: 'source-map',
-  plugins: [
-    new CreateFileWebpack({
-      path: './dist',
-      fileName: 'bitmovin-player-measurements-nielsen.d.ts',
-      content: "export * from './lib/index';",
-    }),
-  ],
   externals: {
     'bitmovin-player': {
       commonjs: 'bitmovin-player',
